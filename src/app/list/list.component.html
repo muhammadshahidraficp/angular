@@ -1,0 +1,64 @@
+<div class="col-12" *ngIf="itemList.length < 3">
+  <div class="col-4 float-left">
+    Description
+    <br>
+    <input  class="form-control" type="text" [(ngModel)] = "item['description']"/>
+    </div>
+    <div class="col-4 float-left">
+      Priority
+      <br>
+      <select  class="form-control" [(ngModel)] = "item['priority']">
+        <option value="1">High</option>
+        <option value="2">Medium</option>
+        <option value="3">Low</option>
+      </select>
+      </div>
+      <div class="col-12 float-left" style="margin-top:20px;">
+        <button class="btn btn-info" (click)= "addItem()" >Add Item</button>
+      </div>
+</div>
+<div class="col-12" *ngIf="itemList.length > 1">
+  <div class="col-4 float-left">
+    Sort By
+    <br>
+    <select  class="form-control" [(ngModel)] = "sortKey">
+      <option value="description">Description</option>
+      <option value="priority">Priority</option>
+      
+    </select>
+    </div>
+    <div class="col-4 float-left">
+      Sort in
+      <br>
+      <select  class="form-control" [(ngModel)] = "sortDirection">
+        <option value="asc">Ascending Order</option>
+        <option value="dsc">Descending Order</option>
+        
+      </select>
+      </div>
+</div>
+
+<div class="col-12 table-responsive table-striped">
+  <table class="table" *ngIf="showList">
+    <th>
+     <tr>
+        <td>Description</td>
+        <td>Priority</td>
+        <td></td>
+      </tr>
+    </th>
+    <tbody>
+      <tr *ngFor="let iteratingItem of itemList | sortObjectArray:sortKey:sortDirection; let index = index;" [ngClass]="{'bg-danger':iteratingItem['priority']==1, 'bg-warning':iteratingItem['priority']==2, 'bg-success':iteratingItem['priority']==3}">
+        <td>{{ iteratingItem['description'] | uppercase | lowercase}}</td>
+        <td> <select  class="form-control" [(ngModel)] = "iteratingItem['priority']">
+          <option value="1">High</option>
+          <option value="2">Medium</option>
+          <option value="3">Low</option>
+        </select></td>
+        <td>
+          <button  *ngIf="itemList.length >1"(click)="removeItem(index)" class="btn btn-info"><i class="fa fa-trash"></i>&nbsp;Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
